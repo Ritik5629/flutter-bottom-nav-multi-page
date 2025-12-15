@@ -1,11 +1,27 @@
+import 'package:contact_app_gui/contact_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int myIndex = 0;
+
+  final List<Widget> pages = [
+    ContactPage(),
+    Center(child: Text("Message page is coming soon")),
+    Center(child: Text("Camera page is coming soon")),
+    Center(child: Text("Gallery page is coming soon")),
+    Center(child: Text("Browser page is coming soon")),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +31,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
-          title: Text(
+          title: const Text(
             "Contact Application",
             style: TextStyle(
               fontSize: 20,
@@ -25,13 +41,31 @@ class MyApp extends StatelessWidget {
           ),
         ),
 
+        body: pages[myIndex], 
+
         bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.phone,color: Colors.deepPurple,), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.message,color: Colors.deepPurple,), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.camera,color: Colors.deepPurple,), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.photo_library,color: Colors.deepPurple,), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.public,color: Colors.deepPurple,), label: 'Home'),
+          type: BottomNavigationBarType.fixed,
+          currentIndex: myIndex,
+          selectedItemColor: Colors.deepPurple,
+          unselectedItemColor: Colors.grey,
+          selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+          onTap: (index) {
+            setState(() {
+              myIndex = index;
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.phone), label: 'Phone'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.message),
+              label: 'Message',
+            ),
+            BottomNavigationBarItem(icon: Icon(Icons.camera), label: 'Camera'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.photo_library),
+              label: 'Gallery',
+            ),
+            BottomNavigationBarItem(icon: Icon(Icons.public), label: 'Browser'),
           ],
         ),
       ),
